@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rafaela Testnet Faucet</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="card hero">
+      <div class="topbar">
+        <div class="brand">
+          <div class="mark logo-mark"><img src="../assets/rafaela-logo.png" alt="Rafaela"></div>
+          <div>
+            <p class="eyebrow">Rafaela Public Testnet</p>
+            <h1>RAFA Faucet</h1>
+          </div>
+        </div>
+        <button id="themeBtn" class="ghost">Light</button>
+      </div>
+
+      <p class="lead">
+        Claim test RAFA for transfers on Rafaela Chain. This faucet distributes from a reserve wallet and does not mint new supply.
+      </p>
+
+      <div class="grid">
+        <div class="metric">
+          <span>Chain ID</span>
+          <strong>801 / 0x321</strong>
+        </div>
+        <div class="metric">
+          <span>Symbol</span>
+          <strong>RAFA</strong>
+        </div>
+        <div class="metric">
+          <span>Decimals</span>
+          <strong>18</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="card form-card">
+      <label for="address">Rafaela Address</label>
+      <input id="address" placeholder="@rafa.k7m29xap93qz1v8c..." autocomplete="off" />
+      <button id="claimBtn" class="primary">Claim Test RAFA</button>
+      <pre id="result" class="result">Ready.</pre>
+    </section>
+
+    <footer>
+      <span>RPC: <code>https://trpc.kodok.lol/rpc</code></span>
+      <span>Address format: <code>@rafa.&lt;long-base58&gt;</code></span>
+    </footer>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
