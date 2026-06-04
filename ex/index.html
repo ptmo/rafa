@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="referrer" content="no-referrer">
+  <title>Rafaela Explorer</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <header class="shell nav">
+    <a class="brand" href="./" aria-label="Rafaela Explorer Home">
+      <span class="mark logo-mark"><img src="../assets/rafaela-logo.png" alt="Rafaela"></span>
+      <span><strong>Rafaela</strong><small>Block Explorer</small></span>
+    </a>
+    <nav class="navlinks" aria-label="Primary navigation">
+      <a href="#overview">Overview</a>
+      <a href="#blocks">Blocks</a>
+      <a href="#transactions">Transactions</a>
+      <a href="#l0">L0 Matrix</a>
+      <a href="../wallet/">Web Wallet</a>
+      <a href="../faucet/">Faucet</a>
+    </nav>
+    <button id="themeToggle" class="ghost" type="button" aria-label="Toggle theme">◐</button>
+  </header>
+
+  <main class="shell">
+    <section class="hero panel" id="overview">
+      <div class="hero-copy">
+        <p class="eyebrow">Rafaela Public Testnet · Chain ID 801 / 0x321</p>
+        <h1>Rafaela L0 Hub explorer for RAFA, zones, routes, packets, checkpoints, and finality.</h1>
+        <p class="lead">Track blocks, transactions, addresses, supply, L0 zones, interop packets, route registry, checkpoints, and protocol health from one premium HTML interface.</p>
+        <div class="hero-actions">
+          <a class="primary" href="../wallet/">Open Web Wallet</a>
+          <button id="refreshAll" class="secondary" type="button">Refresh Network</button>
+        </div>
+      </div>
+      <form id="searchForm" class="search-card" autocomplete="off">
+        <label for="searchInput">Search block, tx hash, or @rafa address</label>
+        <div class="search-line">
+          <input id="searchInput" placeholder="@rafa... / 0x... / block number" spellcheck="false">
+          <button type="submit">Search</button>
+        </div>
+        <p id="status" class="status">RPC target: auto</p>
+      </form>
+    </section>
+
+    <section class="grid cards" aria-label="Network statistics">
+      <article class="card"><small>Latest Block</small><strong id="statHeight">–</strong><span>Current finalized height</span></article>
+      <article class="card"><small>Total Transactions</small><strong id="statTx">–</strong><span>Signed + faucet transactions</span></article>
+      <article class="card"><small>Total Supply</small><strong id="statSupply">–</strong><span>RAFA minted under max cap</span></article>
+      <article class="card"><small>Accounts</small><strong id="statAccounts">–</strong><span>Known state entries</span></article>
+      <article class="card"><small>L0 Zones</small><strong id="statZones">–</strong><span>Hub + appchains</span></article>
+      <article class="card"><small>L0 Routes</small><strong id="statRoutes">–</strong><span>Open interop paths</span></article>
+      <article class="card"><small>L0 Packets</small><strong id="statPackets">–</strong><span>Cross-zone messages</span></article>
+      <article class="card"><small>Checkpoints</small><strong id="statCheckpoints">–</strong><span>Finality anchors</span></article>
+    </section>
+
+    <section class="layout-two">
+      <article class="panel chart-panel">
+        <div class="section-head">
+          <div><p class="eyebrow">Activity</p><h2>Recent block density</h2></div>
+          <span id="chartNote" class="pill">Live RPC</span>
+        </div>
+        <canvas id="blockChart" width="900" height="280" aria-label="Recent block transaction count chart"></canvas>
+      </article>
+      <article class="panel chain-card">
+        <div class="section-head"><div><p class="eyebrow">Protocol</p><h2>Network profile</h2></div></div>
+        <dl class="facts">
+          <div><dt>Coin</dt><dd>Rafaela / RAFA</dd></div>
+          <div><dt>Decimals</dt><dd>18</dd></div>
+          <div><dt>RPC</dt><dd id="rpcLabel">–</dd></div>
+          <div><dt>Fixed fee</dt><dd id="fixedFee">–</dd></div>
+          <div><dt>Faucet reserve</dt><dd id="faucetBalance">–</dd></div>
+          <div><dt>Validator</dt><dd id="validatorAddr">–</dd></div>
+          <div><dt>L0 protocol</dt><dd id="l0Protocol">–</dd></div>
+          <div><dt>Hub zone</dt><dd id="l0Hub">–</dd></div>
+          <div><dt>Escrow</dt><dd id="l0Escrow">–</dd></div>
+          <div><dt>Reward rule</dt><dd>No empty block reward. Signed non-empty tx mint is capped and below 50% of fee.</dd></div>
+        </dl>
+      </article>
+    </section>
+
+    <section class="layout-two" id="l0">
+      <article class="panel table-panel">
+        <div class="section-head">
+          <div><p class="eyebrow">Layer Zero</p><h2>Registered Zones</h2></div>
+          <button class="ghost small" id="reloadL0" type="button">Reload L0</button>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Zone</th><th>Kind</th><th>Status</th><th>Security</th><th>Last Height</th></tr></thead><tbody id="zonesBody"></tbody></table></div>
+      </article>
+      <article class="panel table-panel">
+        <div class="section-head">
+          <div><p class="eyebrow">Interop</p><h2>Latest L0 Packets</h2></div>
+          <span class="pill">Signed packets</span>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Packet</th><th>Status</th><th>Route</th><th>Amount</th><th>Tx</th></tr></thead><tbody id="packetsBody"></tbody></table></div>
+      </article>
+    </section>
+
+    <section class="layout-two">
+      <article class="panel table-panel">
+        <div class="section-head"><div><p class="eyebrow">Routing</p><h2>L0 Routes</h2></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Route</th><th>Status</th><th>Ordered</th><th>Fee</th></tr></thead><tbody id="routesBody"></tbody></table></div>
+      </article>
+      <article class="panel table-panel">
+        <div class="section-head"><div><p class="eyebrow">Finality</p><h2>Checkpoints</h2></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Zone</th><th>Height</th><th>State Root</th><th>Time</th></tr></thead><tbody id="checkpointsBody"></tbody></table></div>
+      </article>
+    </section>
+
+    <section class="layout-two" id="blocks">
+      <article class="panel table-panel">
+        <div class="section-head">
+          <div><p class="eyebrow">Ledger</p><h2>Latest Blocks</h2></div>
+          <button class="ghost small" id="reloadBlocks" type="button">Reload</button>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Block</th><th>Age</th><th>Txs</th><th>Mint</th><th>Hash</th></tr></thead><tbody id="blocksBody"></tbody></table></div>
+      </article>
+      <article class="panel table-panel" id="transactions">
+        <div class="section-head">
+          <div><p class="eyebrow">Mempool-free starter</p><h2>Latest Transactions</h2></div>
+          <button class="ghost small" id="reloadTxs" type="button">Reload</button>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Hash</th><th>Type</th><th>Block</th><th>Amount</th><th>From → To</th></tr></thead><tbody id="txBody"></tbody></table></div>
+      </article>
+    </section>
+
+    <section class="panel detail-panel" id="detailPanel" hidden>
+      <div class="section-head">
+        <div><p class="eyebrow">Inspector</p><h2 id="detailTitle">Result</h2></div>
+        <button class="ghost small" id="closeDetail" type="button">Close</button>
+      </div>
+      <pre id="detailBox"></pre>
+    </section>
+
+    <section class="panel roadmap">
+      <p class="eyebrow">Feature matrix</p>
+      <h2>Etherscan-style roadmap, HTML-first</h2>
+      <div class="feature-grid">
+        <span>✓ Dashboard</span><span>✓ Block list</span><span>✓ Tx list</span><span>✓ Address lookup</span>
+        <span>✓ Zone registry</span><span>✓ Route registry</span><span>✓ L0 packets</span><span>✓ Checkpoints</span>
+        <span>✓ Web wallet interop</span><span>✓ Validator view</span><span>Next: token pages</span><span>Next: light-client proofs</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell footer">
+    <span>Rafaela Explorer v0.3 L0 · HTML/CSS/JS only UI</span>
+    <span>Neon magenta identity · Linux MX friendly operation</span>
+  </footer>
+  <script src="./app.js"></script>
+</body>
+</html>
