@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="referrer" content="no-referrer">
+  <title>Rafaela Web Wallet</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="mesh"></div>
+  <header class="shell nav">
+    <a class="brand" href="./"><span class="mark logo-mark"><img src="../assets/rafaela-logo.png" alt="Rafaela"></span><span><strong>Rafaela</strong><small>L0 Web Wallet</small></span></a>
+    <nav>
+      <a href="../explorer/">Explorer</a>
+      <a href="../faucet/">Faucet</a>
+      <button id="themeToggle" type="button">◐</button>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Rafaela Public Testnet · HTML Wallet</p>
+        <h1>Send RAFA and create signed L0 packets from one encrypted HTML wallet.</h1>
+        <p class="lead">Private keys stay in this browser. Normal transfers and L0 interop packets are signed locally before being submitted to the Rafaela Hub.</p>
+      </div>
+      <aside class="security-card">
+        <h2>Security posture</h2>
+        <ul>
+          <li>No private key upload</li>
+          <li>Password encrypted browser storage</li>
+          <li>Signed transaction and signed L0 packet only</li>
+          <li>Manual backup / import</li>
+          <li>Best used from trusted local files or HTTPS</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="panel rpc-panel">
+      <label for="rpcUrl">RPC endpoint</label>
+      <div class="line"><input id="rpcUrl" spellcheck="false"><button id="saveRpc" type="button">Save RPC</button><button id="checkRpc" type="button">Check</button></div>
+      <p id="rpcStatus">RPC target: auto</p>
+    </section>
+
+    <section class="wallet-grid">
+      <article class="panel access-panel">
+        <div class="section-head"><div><p class="eyebrow">Vault</p><h2>Wallet access</h2></div><span id="lockState" class="pill">Locked</span></div>
+        <label>Password</label>
+        <input id="password" type="password" placeholder="Strong password for this local wallet">
+        <div class="button-grid">
+          <button id="createWallet" class="primary" type="button">Create Wallet</button>
+          <button id="unlockWallet" type="button">Unlock</button>
+          <button id="lockWallet" type="button">Lock</button>
+          <button id="deleteWallet" class="danger" type="button">Delete Local Wallet</button>
+        </div>
+        <div class="backup-box">
+          <button id="exportBackup" type="button">Export Encrypted Backup</button>
+          <label for="importFile" class="file-label">Import Encrypted Backup</label>
+          <input id="importFile" type="file" accept="application/json" hidden>
+        </div>
+      </article>
+
+      <article class="panel account-panel">
+        <div class="section-head"><div><p class="eyebrow">Account</p><h2>Balance</h2></div><button id="refreshBalance" type="button">Refresh</button></div>
+        <label>Address</label>
+        <div class="line"><input id="address" readonly spellcheck="false"><button id="copyAddress" type="button">Copy</button></div>
+        <div class="balance"><span id="balance">0</span><small>RAFA</small></div>
+        <div class="mini-stats"><span>Nonce <strong id="nonce">0</strong></span><span>Chain <strong>801 / 0x321</strong></span><span>Fee <strong>0.001 RAFA</strong></span></div>
+        <button id="claimFaucet" class="secondary-wide" type="button">Claim Faucet</button>
+      </article>
+    </section>
+
+    <section class="wallet-grid">
+      <article class="panel send-panel">
+        <div class="section-head"><div><p class="eyebrow">Transfer</p><h2>Send RAFA</h2></div></div>
+        <label for="toAddress">Recipient address</label>
+        <input id="toAddress" placeholder="@rafa.longBase58Address" spellcheck="false">
+        <label for="amount">Amount</label>
+        <input id="amount" inputmode="decimal" placeholder="1.25">
+        <button id="sendTx" class="primary full" type="button">Sign & Send Transaction</button>
+        <p class="hint">The browser signs a canonical Rafaela transaction. The RPC receives only public key, signature, and transaction data.</p>
+      </article>
+
+      <article class="panel interop-panel">
+        <div class="section-head"><div><p class="eyebrow">Layer Zero</p><h2>Create L0 Packet</h2></div><button id="reloadZones" type="button">Zones</button></div>
+        <label for="zoneSelect">Destination zone</label>
+        <select id="zoneSelect"></select>
+        <label for="interopTo">Destination @rafa address</label>
+        <input id="interopTo" placeholder="@rafa.destinationAddress" spellcheck="false">
+        <label for="interopAmount">Amount to escrow</label>
+        <input id="interopAmount" inputmode="decimal" placeholder="0.5">
+        <label for="interopMemo">Memo</label>
+        <textarea id="interopMemo" placeholder="Optional interop memo, max 240 chars"></textarea>
+        <button id="sendInterop" class="primary full" type="button">Sign & Send L0 Packet</button>
+        <p id="l0Status" class="hint">L0 route registry will load after RPC check.</p>
+      </article>
+
+      <article class="panel activity-panel">
+        <div class="section-head"><div><p class="eyebrow">Console</p><h2>Activity log</h2></div><button id="clearLog" type="button">Clear</button></div>
+        <pre id="log">Ready.</pre>
+      </article>
+    </section>
+  </main>
+
+  <footer class="shell footer">Rafaela Web Wallet v0.3 L0 · Testnet only · Use HTTPS or local trusted machine</footer>
+  <script src="./app.js"></script>
+</body>
+</html>
