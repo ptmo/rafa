@@ -1,0 +1,10 @@
+{
+  "name": "Rafaela Web Wallet",
+  "short_name": "Rafaela Wallet",
+  "start_url": "/wallet/",
+  "display": "standalone",
+  "background_color": "#fff7fd",
+  "theme_color": "#ff63e2",
+  "description": "Rafaela L0 SPA wallet for testnet RAFA transfers, staking, contracts, and settings modals.",
+  "icons": [{"src":"/assets/rafaela-logo.png","sizes":"512x512","type":"image/png"}]
+}
