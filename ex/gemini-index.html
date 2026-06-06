@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="referrer" content="no-referrer">
+  <title>Rafaela Explorer | Premium</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  
+  <header class="shell nav glass-panel">
+    <a class="brand" href="./" aria-label="Rafaela Explorer Home">
+      <span class="mark logo-mark"><i class="fa-brands fa-ethereum"></i></span>
+      <span>
+        <strong>Rafaela</strong>
+        <small>Block Explorer</small>
+      </span>
+    </a>
+    <nav class="navlinks" aria-label="Primary navigation">
+      <a href="#overview"><i class="fa-solid fa-chart-line"></i> Overview</a>
+      <a href="#dashboard-grid"><i class="fa-solid fa-cubes"></i> Blockchain</a>
+      <a href="#contracts"><i class="fa-solid fa-file-contract"></i> Contracts</a>
+      <a href="../wallet/"><i class="fa-solid fa-wallet"></i> Web Wallet</a>
+      <a href="../faucet/"><i class="fa-solid fa-droplet"></i> Faucet</a>
+    </nav>
+    <button id="themeToggle" class="btn-icon" type="button" aria-label="Toggle theme">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </header>
+
+  <main class="shell">
+    
+    <section class="hero panel glass-panel" id="overview">
+      <div class="hero-header">
+        <h1>Rafaela Block Explorer</h1>
+        <p>The premium portal to explore Rafaela L0 Network</p>
+      </div>
+      
+      <div class="search-card">
+        <div class="search-line">
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input id="searchVal" type="text" placeholder="Search by Address / Txn Hash / Block / Token / Domain...">
+          </div>
+          <button class="primary" id="btnSearch" type="button">
+            Search <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+        <div class="status-wrap">
+          <span class="status-indicator"><i class="fa-solid fa-circle-dot blink"></i> System Status:</span>
+          <span id="status">Connected and synced.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="stats-row">
+      <div class="metric glass-panel">
+        <div class="metric-icon"><i class="fa-solid fa-cube"></i></div>
+        <div class="metric-info">
+          <span class="label">Latest Block</span>
+          <span class="value" id="latestBlock">0</span>
+        </div>
+      </div>
+      <div class="metric glass-panel">
+        <div class="metric-icon"><i class="fa-solid fa-right-left"></i></div>
+        <div class="metric-info">
+          <span class="label">Total Transactions</span>
+          <span class="value" id="totalTxs">0</span>
+        </div>
+      </div>
+      <div class="metric glass-panel">
+        <div class="metric-icon"><i class="fa-solid fa-network-wired"></i></div>
+        <div class="metric-info">
+          <span class="label">Active Zones</span>
+          <span class="value" id="activeZones">0</span>
+        </div>
+      </div>
+      <div class="metric glass-panel">
+        <div class="metric-icon"><i class="fa-solid fa-route"></i></div>
+        <div class="metric-info">
+          <span class="label">Active Routes</span>
+          <span class="value" id="activeRoutes">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid" id="dashboard-grid">
+      
+      <section class="panel glass-panel" id="blocks">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow"><i class="fa-solid fa-link"></i> Blockchain Core</p>
+            <h2>Latest Blocks</h2>
+          </div>
+          <button class="ghost" id="reloadBlocks" type="button">
+            <i class="fa-solid fa-rotate"></i> Reload
+          </button>
+        </div>
+        <div class="table-wrap custom-scrollbar">
+          <table>
+            <thead>
+              <tr>
+                <th><i class="fa-solid fa-hashtag"></i> Block</th>
+                <th><i class="fa-regular fa-clock"></i> Age</th>
+                <th><i class="fa-solid fa-list-ol"></i> Txs</th>
+                <th><i class="fa-solid fa-user-shield"></i> Validator</th>
+              </tr>
+            </thead>
+            <tbody id="blockBody">
+              </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel glass-panel" id="transactions">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow"><i class="fa-solid fa-bolt"></i> Mempool-free</p>
+            <h2>Latest Transactions</h2>
+          </div>
+          <button class="ghost" id="reloadTxs" type="button">
+            <i class="fa-solid fa-rotate"></i> Reload
+          </button>
+        </div>
+        <div class="table-wrap custom-scrollbar">
+          <table>
+            <thead>
+              <tr>
+                <th><i class="fa-solid fa-fingerprint"></i> Hash</th>
+                <th><i class="fa-solid fa-tag"></i> Type</th>
+                <th><i class="fa-solid fa-cube"></i> Block</th>
+                <th><i class="fa-solid fa-coins"></i> Amount</th>
+                <th><i class="fa-solid fa-arrow-right-arrow-left"></i> From &rarr; To</th>
+              </tr>
+            </thead>
+            <tbody id="txBody">
+              </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+
+    <section class="panel detail-panel glass-panel" id="detailPanel" hidden>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow"><i class="fa-solid fa-magnifying-glass-chart"></i> Inspector</p>
+          <h2 id="detailTitle">Result Details</h2>
+        </div>
+        <button class="ghost danger" id="closeDetail" type="button">
+          <i class="fa-solid fa-xmark"></i> Close
+        </button>
+      </div>
+      <pre id="detailBox" class="custom-scrollbar"></pre>
+    </section>
+
+    <section class="panel roadmap glass-panel">
+      <div class="roadmap-header">
+        <p class="eyebrow"><i class="fa-solid fa-map-location-dot"></i> Feature Matrix</p>
+        <h2>System Architecture Overview</h2>
+      </div>
+      <div class="feature-grid">
+        <span><i class="fa-solid fa-circle-check"></i> Dashboard</span>
+        <span><i class="fa-solid fa-circle-check"></i> Block list</span>
+        <span><i class="fa-solid fa-circle-check"></i> Tx list</span>
+        <span><i class="fa-solid fa-circle-check"></i> Address lookup</span>
+        <span><i class="fa-solid fa-circle-check"></i> Zone registry</span>
+        <span><i class="fa-solid fa-circle-check"></i> Route registry</span>
+        <span><i class="fa-solid fa-circle-check"></i> L0 packets</span>
+        <span><i class="fa-solid fa-circle-check"></i> Checkpoints</span>
+        <span><i class="fa-solid fa-circle-check"></i> Web wallet interop</span>
+        <span><i class="fa-solid fa-circle-check"></i> Validator view</span>
+        <span><i class="fa-solid fa-circle-check"></i> RAF20 contracts</span>
+        <span><i class="fa-solid fa-circle-check"></i> RAF721 NFTs</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="shell footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <i class="fa-brands fa-ethereum"></i> Rafaela Explorer v0.5
+      </div>
+      <div class="footer-tags">
+        <span class="tag">L0 + Smart Contracts</span>
+        <span class="tag">HTML/CSS/JS Native</span>
+        <span class="tag">Linux MX Optimized</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Rafaela Network. Crafted with Neon Magenta Identity.
+    </div>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
